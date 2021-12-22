@@ -1,0 +1,315 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User List",
+    "description": "Essa será uma aplicação de listagem e cadastro de usuários.",
+    "version": "0.1.0",
+    "contact": {
+      "email": "eduardo@teste.com.br"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create user",
+        "description": "Create a new user with name and email receivid from request",
+        "requestBody": {
+          "description": "Campos obrigatórios para criação de usuário",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Eduardo Rodrigues"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "eduardo@teste.com.br"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Eduardo Rodrigues"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "eduardo@teste.com.br"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email already in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "This email is already in use"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "List all users",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "description": "List all users if the user_id passed as parameter is an admin",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Eduardo Rodrigues"
+                      },
+                      "admin": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "eduardo@teste.com.br"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Turn an user into an admin",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "description": "Turn the user which the id was passed by parameter into an admin",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Eduardo Rodrigues"
+                      },
+                      "admin": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "eduardo@teste.com.br"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Return an user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "description": "Return an user which id was passed by parameter",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Eduardo Rodrigues"
+                      },
+                      "admin": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "eduardo@teste.com.br"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User not unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
